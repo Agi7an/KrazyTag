@@ -5,6 +5,8 @@ import inputs.*;
 import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import static main.Game.GAME_WIDTH;
+import static main.Game.GAME_HEIGHT;
 
 public class GamePanel extends JPanel {
     private MouseInputs mouseInputs;
@@ -21,10 +23,9 @@ public class GamePanel extends JPanel {
     }
 
     private void setPanelSize() {
-        // 40 Tiles Wide X 25 Tiles High
-        // Since each unit is 32X32
-        Dimension size = new Dimension(1280, 800);
+        Dimension size = new Dimension(GAME_WIDTH, GAME_HEIGHT);
         setPreferredSize(size);
+        System.out.println(GAME_WIDTH + " X " + GAME_HEIGHT);
     }
 
     public void updateGame() {
