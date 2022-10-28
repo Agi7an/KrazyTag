@@ -3,9 +3,6 @@ package utils;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-
-import main.Game;
-
 import java.io.IOException;
 
 public class LoadSave {

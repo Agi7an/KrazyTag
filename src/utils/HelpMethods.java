@@ -3,8 +3,6 @@ package utils;
 import main.Game;
 import java.awt.geom.*;
 
-import javax.annotation.processing.SupportedOptions;
-
 public class HelpMethods {
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] levelData) {
         if (!IsSolid(x, y, levelData)) {
