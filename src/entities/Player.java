@@ -26,6 +26,7 @@ public class Player extends Entity {
         updatePosition();
         updateAnimationTick();
         setAnimation();
+        // Dummy
     }
 
     public void render(Graphics g) {
