@@ -35,37 +35,37 @@ public class Player extends Entity {
     private void loadAnimations() {
         animations = new BufferedImage[7][12];
 
-        importImage("D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Main Characters/Ninja Frog/Idle (32x32).png");
+        importImage("/workspaces/Game/res/Main Characters/Ninja Frog/Idle (32x32).png");
         for (int i = 0; i < 11; i++) {
             animations[0][i] = img.getSubimage(i * 32, 0, 32, 32);
         }
 
-        importImage("D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Main Characters/Ninja Frog/Run (32x32).png");
+        importImage("/workspaces/Game/res/Main Characters/Ninja Frog/Run (32x32).png");
         for (int i = 0; i < 12; i++) {
             animations[1][i] = img.getSubimage(i * 32, 0, 32, 32);
         }
 
-        importImage("D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Main Characters/Ninja Frog/Hit (32x32).png");
+        importImage("/workspaces/Game/res/Main Characters/Ninja Frog/Hit (32x32).png");
         for (int i = 0; i < 7; i++) {
             animations[2][i] = img.getSubimage(i * 32, 0, 32, 32);
         }
 
-        importImage("D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Main Characters/Ninja Frog/Double Jump (32x32).png");
+        importImage("/workspaces/Game/res/Main Characters/Ninja Frog/Double Jump (32x32).png");
         for (int i = 0; i < 6; i++) {
             animations[3][i] = img.getSubimage(i * 32, 0, 32, 32);
         }
 
-        importImage("D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Main Characters/Ninja Frog/Wall Jump (32x32).png");
+        importImage("/workspaces/Game/res/Main Characters/Ninja Frog/Wall Jump (32x32).png");
         for (int i = 0; i < 5; i++) {
             animations[4][i] = img.getSubimage(i * 32, 0, 32, 32);
         }
 
-        importImage("D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Main Characters/Ninja Frog/Jump (32x32).png");
+        importImage("/workspaces/Game/res/Main Characters/Ninja Frog/Jump (32x32).png");
         for (int i = 0; i < 1; i++) {
             animations[5][i] = img.getSubimage(i * 32, 0, 32, 32);
         }
 
-        importImage("D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Main Characters/Ninja Frog/Fall (32x32).png");
+        importImage("/workspaces/Game/res/Main Characters/Ninja Frog/Fall (32x32).png");
         for (int i = 0; i < 1; i++) {
             animations[6][i] = img.getSubimage(i * 32, 0, 32, 32);
         }
