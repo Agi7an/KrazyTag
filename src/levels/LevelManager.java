@@ -3,16 +3,17 @@ package levels;
 import main.Game;
 import utils.LoadSave;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.awt.Graphics;
 
 public class LevelManager {
     private Game game;
     private BufferedImage[] levelSprite;
+    private Level levelOne;
 
     public LevelManager(Game game) {
         this.game = game;
         importOutsideSprites();
+        levelOne = new Level(LoadSave.GetLevelData());
     }
 
     private void importOutsideSprites() {
@@ -27,7 +28,13 @@ public class LevelManager {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(levelSprite[6], 0, 0, null);
+        for (int i = 0; i < Game.TILES_IN_HEIGHT; i++) {
+            for (int j = 0; j < Game.TILES_IN_WIDTH; j++) {
+                int index = levelOne.getSpriteIndex(j, i);
+                g.drawImage(levelSprite[index], j * Game.TILES_SIZE, i * Game.TILES_SIZE, Game.TILES_SIZE,
+                        Game.TILES_SIZE, null);
+            }
+        }
     }
 
     public void update() {
