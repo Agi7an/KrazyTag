@@ -65,10 +65,6 @@ public class HelpMethods {
             int tileYPos = currentTile * Game.TILES_SIZE;
             // int yOffset = (int) (Game.TILES_SIZE * 2 - hitBox.height);
             int yOffset = (int) (Game.TILES_SIZE - hitBox.height);
-            System.out.println(currentTile);
-            System.out.println(tileYPos);
-            System.out.println(yOffset);
-            System.out.println(hitBox.height);
             return tileYPos + yOffset - 1;
         } else {
             // Jumping

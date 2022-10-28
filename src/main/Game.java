@@ -1,8 +1,8 @@
 package main;
 
-import entities.Player;
-import levels.*;
 import java.awt.Graphics;
+import static gamestates.Gamestate.*;
+import gamestates.*;
 
 public class Game implements Runnable {
     private GameWindow gameWindow;
@@ -11,8 +11,8 @@ public class Game implements Runnable {
     private final int FPS_SET = 120;
     private final int UPS_SET = 200;
 
-    private Player player;
-    private LevelManager levelManager;
+    private Playing playing;
+    private Menu menu;
 
     public final static int TILES_DEFAULT_SIZE = 16;
     public final static float SCALE = 3.0f;
@@ -31,9 +31,8 @@ public class Game implements Runnable {
     }
 
     private void initClasses() {
-        levelManager = new LevelManager(this);
-        player = new Player(100, 100, (int) (16 * SCALE), (int) (16 * SCALE));
-        player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
+        menu = new Menu(this);
+        playing = new Playing(this);
     }
 
     private void startGameLoop() {
@@ -42,21 +41,43 @@ public class Game implements Runnable {
     }
 
     public void update() {
-        levelManager.update();
-        player.update();
+        switch (STATE) {
+            case MENU:
+                menu.update();
+                break;
+            case PLAYING:
+                playing.update();
+                break;
+            default:
+                break;
+        }
     }
 
     public void render(Graphics g) {
-        levelManager.draw(g);
-        player.render(g);
+        switch (STATE) {
+            case MENU:
+                menu.draw(g);
+                break;
+            case PLAYING:
+                playing.draw(g);
+                break;
+            default:
+                break;
+        }
     }
 
-    public Player getPlayer() {
-        return player;
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public Playing getPlaying() {
+        return playing;
     }
 
     public void windowFocusLost() {
-        player.resetDirectionBooleans();
+        if (Gamestate.STATE == Gamestate.PLAYING) {
+            playing.getPlayer().resetDirectionBooleans();
+        }
     }
 
     @Override
