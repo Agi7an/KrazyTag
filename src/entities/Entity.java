@@ -20,11 +20,6 @@ public abstract class Entity {
         hitBox = new Rectangle2D.Float(x, y, width, height);
     }
 
-    // protected void updateHitBox() {
-    // hitBox.x = (int) x;
-    // hitBox.y = (int) y;
-    // }
-
     protected void drawHitBox(Graphics g) {
         g.setColor(Color.PINK);
         g.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);

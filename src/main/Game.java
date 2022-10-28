@@ -32,7 +32,7 @@ public class Game implements Runnable {
 
     private void initClasses() {
         levelManager = new LevelManager(this);
-        player = new Player(50, GAME_HEIGHT - (int) (32 * (SCALE + 3)), (int) (32 * SCALE), (int) (32 * SCALE));
+        player = new Player(100, 100, (int) (16 * SCALE), (int) (16 * SCALE));
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
     }
 

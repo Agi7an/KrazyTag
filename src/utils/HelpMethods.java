@@ -3,6 +3,8 @@ package utils;
 import main.Game;
 import java.awt.geom.*;
 
+import javax.annotation.processing.SupportedOptions;
+
 public class HelpMethods {
     public static boolean CanMoveHere(float x, float y, float width, float height, int[][] levelData) {
         if (!IsSolid(x, y, levelData)) {
@@ -45,7 +47,8 @@ public class HelpMethods {
         if (xSpeed > 0) {
             // Colliding to the right
             int tileXPos = currentTile * Game.TILES_SIZE;
-            int xOffset = (int) (Game.TILES_SIZE * 2 - hitBox.width);
+            // int xOffset = (int) (Game.TILES_SIZE * 2 - hitBox.width);
+            int xOffset = (int) (Game.TILES_SIZE - hitBox.width);
             return tileXPos + xOffset - 1;
         } else {
             // Colliding to the left
@@ -60,7 +63,12 @@ public class HelpMethods {
         if (airSpeed > 0) {
             // Falling
             int tileYPos = currentTile * Game.TILES_SIZE;
-            int yOffset = (int) (Game.TILES_SIZE * 2 - hitBox.height);
+            // int yOffset = (int) (Game.TILES_SIZE * 2 - hitBox.height);
+            int yOffset = (int) (Game.TILES_SIZE - hitBox.height);
+            System.out.println(currentTile);
+            System.out.println(tileYPos);
+            System.out.println(yOffset);
+            System.out.println(hitBox.height);
             return tileYPos + yOffset - 1;
         } else {
             // Jumping
