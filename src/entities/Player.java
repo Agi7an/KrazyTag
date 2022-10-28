@@ -1,6 +1,9 @@
 package entities;
 
 import java.awt.image.BufferedImage;
+
+import main.Game;
+
 import static utils.Constants.PlayerConstants.*;
 import java.awt.Graphics;
 import static utils.LoadSave.*;
@@ -26,7 +29,9 @@ public class Player extends Entity {
     }
 
     public void render(Graphics g) {
-        g.drawImage(animations[playerAction][aniIndex], (int) x, (int) y, 64, 64, null);
+        g.drawImage(animations[playerAction][aniIndex], (int) x, (int) y, (int) (32 * Game.SCALE),
+                (int) (32 * Game.SCALE),
+                null);
     }
 
     private void loadAnimations() {
