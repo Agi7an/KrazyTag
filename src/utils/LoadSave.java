@@ -10,6 +10,9 @@ public class LoadSave {
         public static final String LEVEL_ATLAS = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Terrain/Terrain (16x16).png";
         public static final String MENU_BUTTONS_ATLAS = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/button_atlas.png";
         public static final String MENU_BACKGROUND = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/menu_background.png";
+        public static final String PAUSE_BACKGROUND = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/pause_menu.png";
+        public static final String SOUND_BUTTONS = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/sound_button.png";
+        public static final String URM_BUTTONS = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/urm_buttons.png";
 
         public static BufferedImage GetSprite(String path) {
                 File is = new File(path);
