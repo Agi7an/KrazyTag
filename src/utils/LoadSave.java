@@ -8,6 +8,8 @@ import java.io.IOException;
 public class LoadSave {
 
         public static final String LEVEL_ATLAS = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Terrain/Terrain (16x16).png";
+        public static final String MENU_BUTTONS_ATLAS = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/button_atlas.png";
+        public static final String MENU_BACKGROUND = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/menu_background.png";
 
         public static BufferedImage GetSprite(String path) {
                 File is = new File(path);

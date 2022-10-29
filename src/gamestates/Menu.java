@@ -4,27 +4,51 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import main.Game;
+import ui.MenuButton;
+import utils.LoadSave;
 
 public class Menu extends State implements Statemethods {
 
+    private MenuButton[] buttons = new MenuButton[3];
+    private BufferedImage background;
+    private int menuX, menuY, menuWidth, menuHeight;
+
     public Menu(Game game) {
         super(game);
+        loadButtons();
+        loadBackground();
+    }
+
+    private void loadBackground() {
+        background = LoadSave.GetSprite(LoadSave.MENU_BACKGROUND);
+        menuWidth = (int) (background.getWidth() * Game.SCALE / 3);
+        menuHeight = (int) (background.getHeight() * Game.SCALE / 3);
+        menuX = Game.GAME_WIDTH / 2 - menuWidth / 2;
+        menuY = (int) (45 * Game.SCALE);
+    }
+
+    private void loadButtons() {
+        buttons[0] = new MenuButton(Game.GAME_WIDTH / 2, (int) (77 * Game.SCALE), 0, Gamestate.PLAYING);
+        buttons[1] = new MenuButton(Game.GAME_WIDTH / 2, (int) (102 * Game.SCALE), 1, Gamestate.SETTINGS);
+        buttons[2] = new MenuButton(Game.GAME_WIDTH / 2, (int) (127 * Game.SCALE), 2, Gamestate.QUIT);
     }
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-
+        for (MenuButton mb : buttons) {
+            mb.update();
+        }
     }
 
     @Override
     public void draw(Graphics g) {
-        // TODO Auto-generated method stub
-        g.setColor(Color.BLACK);
-        g.drawString("MENU", Game.GAME_WIDTH / 2, 200);
-
+        g.drawImage(background, menuX, menuY, menuWidth, menuHeight, null);
+        for (MenuButton mb : buttons) {
+            mb.draw(g);
+        }
     }
 
     @Override
@@ -35,19 +59,44 @@ public class Menu extends State implements Statemethods {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-
+        for (MenuButton mb : buttons) {
+            if (isIn(e, mb)) {
+                mb.setMousePressed(true);
+                break;
+            }
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
+        for (MenuButton mb : buttons) {
+            if (isIn(e, mb)) {
+                if (mb.isMousePressed()) {
+                    mb.applyGameState();
+                }
+                break;
+            }
+        }
+        resetButtons();
+    }
 
+    private void resetButtons() {
+        for (MenuButton mb : buttons) {
+            mb.resetBools();
+        }
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
+        for (MenuButton mb : buttons) {
+            mb.setMouseOver(false);
+        }
+        for (MenuButton mb : buttons) {
+            if (isIn(e, mb)) {
+                mb.setMouseOver(true);
+                break;
+            }
+        }
 
     }
 
@@ -62,7 +111,6 @@ public class Menu extends State implements Statemethods {
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-
     }
 
 }
