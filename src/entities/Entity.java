@@ -20,9 +20,9 @@ public abstract class Entity {
         hitBox = new Rectangle2D.Float(x, y, width, height);
     }
 
-    protected void drawHitBox(Graphics g) {
+    protected void drawHitBox(Graphics g, int levelOffset) {
         g.setColor(Color.PINK);
-        g.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
+        g.drawRect((int) hitBox.x - levelOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
     public Rectangle2D.Float getHitBox() {

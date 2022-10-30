@@ -3,11 +3,7 @@ package ui;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-
-import javax.swing.text.PlainDocument;
-
 import gamestates.Gamestate;
-
 import static utils.Constants.UI.PauseButtons.*;
 import static utils.Constants.UI.URMButtons.*;
 import main.Game;
