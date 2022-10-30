@@ -49,7 +49,7 @@ public class Game implements Runnable {
                 playing.update();
                 break;
             case SETTINGS:
-
+                System.out.println("Settings...");
             case QUIT:
             default:
                 System.exit(0);
@@ -81,6 +81,7 @@ public class Game implements Runnable {
     public void windowFocusLost() {
         if (Gamestate.STATE == Gamestate.PLAYING) {
             playing.getPlayer().resetDirectionBooleans();
+            playing.getEnemy().resetDirectionBooleans();
         }
     }
 

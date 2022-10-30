@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import entities.Player;
+import entities.Enemy;
 import levels.*;
 import main.Game;
 import ui.PauseOverlay;
@@ -16,6 +17,7 @@ import java.util.Random;
 public class Playing extends State implements Statemethods {
 
     private Player player;
+    private Enemy enemy;
     private LevelManager levelManager;
     private boolean paused = false;
     private PauseOverlay pauseOverlay;
@@ -34,6 +36,7 @@ public class Playing extends State implements Statemethods {
     public Playing(Game game) {
         super(game);
         initClasses();
+
         background = LoadSave.GetSprite(LoadSave.LEVEL_BACKGROUND);
         bigCloud = LoadSave.GetSprite(LoadSave.BIG_CLOUDS);
         smallCloud = LoadSave.GetSprite(LoadSave.SMALL_CLOUDS);
@@ -47,6 +50,8 @@ public class Playing extends State implements Statemethods {
         levelManager = new LevelManager(game);
         player = new Player(100, 100, (int) (16 * Game.SCALE), (int) (16 * Game.SCALE));
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
+        enemy = new Enemy(200, 100, (int) (16 * Game.SCALE), (int) (16 * Game.SCALE));
+        enemy.loadLevelData(levelManager.getCurrentLevel().getLevelData());
         pauseOverlay = new PauseOverlay(this);
     }
 
@@ -54,11 +59,19 @@ public class Playing extends State implements Statemethods {
         return player;
     }
 
+    public Enemy getEnemy() {
+        return enemy;
+    }
+
     @Override
     public void update() {
         if (!paused) {
             levelManager.update();
             player.update();
+            enemy.update();
+            if (enemy.hasCaughtPlayer(player.getHitBox())) {
+                Gamestate.STATE = Gamestate.QUIT;
+            }
             checkCloseToBorder();
         } else {
             pauseOverlay.update();
@@ -89,7 +102,10 @@ public class Playing extends State implements Statemethods {
         drawClouds(g);
 
         levelManager.draw(g, xLevelOffset);
+
+        enemy.render(g, xLevelOffset);
         player.render(g, xLevelOffset);
+
         if (paused) {
             g.setColor(new Color(0, 0, 0, 200));
             g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
@@ -114,6 +130,8 @@ public class Playing extends State implements Statemethods {
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             player.setAttacking(true);
+        } else if (e.getButton() == MouseEvent.BUTTON2) {
+            enemy.setAttacking(true);
         }
     }
 
@@ -150,6 +168,15 @@ public class Playing extends State implements Statemethods {
             case KeyEvent.VK_SPACE:
                 player.setJump(true);
                 break;
+            case KeyEvent.VK_RIGHT:
+                enemy.setRight(true);
+                break;
+            case KeyEvent.VK_LEFT:
+                enemy.setLeft(true);
+                break;
+            case KeyEvent.VK_UP:
+                enemy.setJump(true);
+                break;
             case KeyEvent.VK_BACK_SPACE:
                 Gamestate.STATE = Gamestate.MENU;
                 break;
@@ -170,6 +197,15 @@ public class Playing extends State implements Statemethods {
                 break;
             case KeyEvent.VK_SPACE:
                 player.setJump(false);
+                break;
+            case KeyEvent.VK_RIGHT:
+                enemy.setRight(false);
+                break;
+            case KeyEvent.VK_LEFT:
+                enemy.setLeft(false);
+                break;
+            case KeyEvent.VK_UP:
+                enemy.setJump(false);
                 break;
         }
     }
