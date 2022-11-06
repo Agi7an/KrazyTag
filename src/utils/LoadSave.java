@@ -17,6 +17,7 @@ public class LoadSave {
         public static final String LEVEL_BACKGROUND = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/playing_bg_img.png";
         public static final String BIG_CLOUDS = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/big_clouds.png";
         public static final String SMALL_CLOUDS = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/small_clouds.png";
+        public static final String DEATH_SCREEN = "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Extras/death_screen.png";
 
         public static BufferedImage GetSprite(String path) {
                 File is = new File(path);

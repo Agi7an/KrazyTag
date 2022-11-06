@@ -108,7 +108,7 @@ public class PauseOverlay {
             }
         } else if (isIn(e, replayButton)) {
             if (replayButton.isMousePressed()) {
-                System.out.println("REPLAY BUTTON PRESSED!");
+                playing.resetAll();
             }
         } else if (isIn(e, unpauseButton)) {
             if (unpauseButton.isMousePressed()) {

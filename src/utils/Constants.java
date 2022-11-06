@@ -50,6 +50,7 @@ public class Constants {
         public static final int WALLJUMP = 4;
         public static final int JUMP = 5;
         public static final int FALL = 6;
+        public static final int DEAD = 7;
 
         public static int GetSpriteAmount(int playerAction) {
             switch (playerAction) {
@@ -67,6 +68,8 @@ public class Constants {
                     return 1;
                 case FALL:
                     return 1;
+                case DEAD:
+                    return 7;
                 default:
                     return 1;
             }

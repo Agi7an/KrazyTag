@@ -12,7 +12,6 @@ public class Enemy extends Entity {
     private BufferedImage[][] animations;
     private BufferedImage img;
     private int aniTick = 0, aniIndex = 0, aniSpeed = 7;
-    private int enemyAction = IDLE;
     private boolean left, up, right, down;
     private boolean moving = false, attacking = false;
     private float enemySpeed = 2.0f;
@@ -29,8 +28,12 @@ public class Enemy extends Entity {
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
 
+    private int flipX = 0;
+    private int flipW = 1;
+
     public Enemy(float x, float y, int width, int height) {
         super(x, y, width, height);
+        this.state = IDLE;
         loadAnimations();
         // Hitbox Width and Height
         // initHitBox(x, y, 20 * Game.SCALE, 26 * Game.SCALE);
@@ -44,9 +47,9 @@ public class Enemy extends Entity {
     }
 
     public void render(Graphics g, int levelOffset) {
-        g.drawImage(animations[enemyAction][aniIndex], (int) (hitBox.x - xDrawOffset) - levelOffset,
+        g.drawImage(animations[state][aniIndex], (int) (hitBox.x - xDrawOffset) - levelOffset + flipX,
                 (int) (hitBox.y - yDrawOffset),
-                (int) (width),
+                (int) (width * flipW),
                 (int) (height),
                 null);
         // drawHitBox(g, levelOffset);
@@ -103,7 +106,7 @@ public class Enemy extends Entity {
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= GetSpriteAmount(enemyAction)) {
+            if (aniIndex >= GetSpriteAmount(state)) {
                 aniIndex = 0;
                 attacking = false;
             }
@@ -111,27 +114,27 @@ public class Enemy extends Entity {
     }
 
     private void setAnimation() {
-        int startAni = enemyAction;
+        int startAni = state;
 
         if (moving) {
-            enemyAction = RUN;
+            state = RUN;
         } else {
-            enemyAction = IDLE;
+            state = IDLE;
         }
 
         if (inAir) {
             if (airSpeed < 0) {
-                enemyAction = JUMP;
+                state = JUMP;
             } else {
-                enemyAction = FALL;
+                state = FALL;
             }
         }
 
         if (attacking) {
-            enemyAction = HIT;
+            state = HIT;
         }
 
-        if (startAni != enemyAction) {
+        if (startAni != state) {
             resetAniTick();
         }
     }
@@ -158,9 +161,13 @@ public class Enemy extends Entity {
 
         if (left) {
             xSpeed -= enemySpeed;
+            flipX = width;
+            flipW = -1;
         }
         if (right) {
             xSpeed += enemySpeed;
+            flipX = 0;
+            flipW = 1;
         }
         if (!inAir) {
             if (!IsEntityOnFloor(hitBox, levelData)) {
@@ -286,5 +293,18 @@ public class Enemy extends Entity {
 
     public void setJump(boolean jump) {
         this.jump = jump;
+    }
+
+    public void resetAll() {
+        resetDirectionBooleans();
+        inAir = false;
+        attacking = false;
+        moving = false;
+        state = IDLE;
+        hitBox.x = x;
+        hitBox.y = y;
+        if (!IsEntityOnFloor(hitBox, levelData)) {
+            inAir = true;
+        }
     }
 }

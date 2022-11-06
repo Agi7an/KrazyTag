@@ -7,12 +7,12 @@ import java.awt.Graphics;
 import static utils.Constants.PlayerConstants.*;
 import static utils.HelpMethods.*;
 import static utils.LoadSave.*;
+import gamestates.Playing;
 
 public class Player extends Entity {
     private BufferedImage[][] animations;
     private BufferedImage img;
     private int aniTick = 0, aniIndex = 0, aniSpeed = 7;
-    private int playerAction = IDLE;
     private boolean left, up, right, down;
     private boolean moving = false, attacking = false;
     private float playerSpeed = 2.0f;
@@ -20,6 +20,18 @@ public class Player extends Entity {
     // Hitbox Offset
     // private float xDrawOffset = 6 * Game.SCALE, yDrawOffset = 5 * Game.SCALE;
     private float xDrawOffset = 3 * Game.SCALE, yDrawOffset = 3 * Game.SCALE;
+
+    public int getAniTick() {
+        return aniTick;
+    }
+
+    public int getAniIndex() {
+        return aniIndex;
+    }
+
+    public int getAniSpeed() {
+        return aniSpeed;
+    }
 
     // Jumping and Gravity
     private boolean jump;
@@ -29,8 +41,15 @@ public class Player extends Entity {
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
 
-    public Player(float x, float y, int width, int height) {
+    private int flipX = 0;
+    private int flipW = 1;
+
+    private Playing playing;
+
+    public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
+        this.playing = playing;
+        this.state = IDLE;
         loadAnimations();
         // Hitbox Width and Height
         // initHitBox(x, y, 20 * Game.SCALE, 26 * Game.SCALE);
@@ -38,22 +57,24 @@ public class Player extends Entity {
     }
 
     public void update() {
-        updatePosition();
-        updateAnimationTick();
-        setAnimation();
+        if (state != DEAD) {
+            updatePosition();
+            updateAnimationTick();
+            setAnimation();
+        }
     }
 
     public void render(Graphics g, int levelOffset) {
-        g.drawImage(animations[playerAction][aniIndex], (int) (hitBox.x - xDrawOffset) - levelOffset,
+        g.drawImage(animations[state][aniIndex], (int) (hitBox.x - xDrawOffset) - levelOffset + flipX,
                 (int) (hitBox.y - yDrawOffset),
-                (int) (width),
+                (int) (width * flipW),
                 (int) (height),
                 null);
         // drawHitBox(g, levelOffset);
     }
 
     private void loadAnimations() {
-        animations = new BufferedImage[7][12];
+        animations = new BufferedImage[8][12];
 
         img = GetSprite(
                 "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Main Characters/Ninja Frog/Idle (32x32).png");
@@ -96,14 +117,20 @@ public class Player extends Entity {
         for (int i = 0; i < 1; i++) {
             animations[6][i] = img.getSubimage(i * 32, 0, 32, 32);
         }
+
+        img = GetSprite(
+                "D:/TCS/fifthSem/JAVA Lab/Package/Game/res/Main Characters/Ninja Frog/Hit (32x32).png");
+        for (int i = 0; i < 7; i++) {
+            animations[7][i] = img.getSubimage(i * 32, 0, 32, 32);
+        }
     }
 
-    private void updateAnimationTick() {
+    public void updateAnimationTick() {
         aniTick++;
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= GetSpriteAmount(playerAction)) {
+            if (aniIndex >= GetSpriteAmount(state)) {
                 aniIndex = 0;
                 attacking = false;
             }
@@ -111,29 +138,37 @@ public class Player extends Entity {
     }
 
     private void setAnimation() {
-        int startAni = playerAction;
+        int startAni = state;
 
         if (moving) {
-            playerAction = RUN;
+            state = RUN;
         } else {
-            playerAction = IDLE;
+            state = IDLE;
         }
 
         if (inAir) {
             if (airSpeed < 0) {
-                playerAction = JUMP;
+                state = JUMP;
             } else {
-                playerAction = FALL;
+                state = FALL;
             }
         }
 
         if (attacking) {
-            playerAction = HIT;
+            state = HIT;
         }
 
-        if (startAni != playerAction) {
+        if (startAni != state) {
             resetAniTick();
         }
+    }
+
+    public void setAniTick(int aniTick) {
+        this.aniTick = aniTick;
+    }
+
+    public void setAniIndex(int aniIndex) {
+        this.aniIndex = aniIndex;
     }
 
     private void resetAniTick() {
@@ -158,9 +193,13 @@ public class Player extends Entity {
 
         if (left) {
             xSpeed -= playerSpeed;
+            flipX = width;
+            flipW = -1;
         }
         if (right) {
             xSpeed += playerSpeed;
+            flipX = 0;
+            flipW = 1;
         }
         if (!inAir) {
             if (!IsEntityOnFloor(hitBox, levelData)) {
@@ -263,5 +302,18 @@ public class Player extends Entity {
 
     public void setJump(boolean jump) {
         this.jump = jump;
+    }
+
+    public void resetAll() {
+        resetDirectionBooleans();
+        inAir = false;
+        attacking = false;
+        moving = false;
+        state = IDLE;
+        hitBox.x = x;
+        hitBox.y = y;
+        if (!IsEntityOnFloor(hitBox, levelData)) {
+            inAir = true;
+        }
     }
 }
