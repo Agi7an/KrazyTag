@@ -13,11 +13,15 @@ import java.awt.image.BufferedImage;
 import java.awt.event.MouseEvent;
 import static utils.Constants.UI.URMButtons.*;
 
+import java.lang.*;
+
 public class GameOverOverlay {
     private Playing playing;
     private BufferedImage image;
+    private BufferedImage[] numbers;
     private int x, y, width, height;
     private UrmButton menu, again;
+    private int score;
 
     public GameOverOverlay(Playing playing) {
         this.playing = playing;
@@ -39,12 +43,38 @@ public class GameOverOverlay {
         height = (int) (image.getHeight() * Game.SCALE / 3);
         x = Game.GAME_WIDTH / 2 - width / 2;
         y = 200;
+
+        numbers = new BufferedImage[10];
+        BufferedImage temp = LoadSave.GetSprite(LoadSave.WHITE_TEXT);
+        for (int i = 0; i < 10; i++) {
+            numbers[i] = temp.getSubimage(i * 8, 30, 8, 10);
+        }
     }
 
     public void draw(Graphics g) {
         g.setColor(new Color(0, 0, 0, 200));
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
         g.drawImage(image, x, y, width, height, null);
+
+        score = playing.getPlayer().getScore();
+        int length;
+        if (score == 0) {
+            length = 1;
+            g.drawImage(numbers[score],
+                    Game.GAME_WIDTH / 2 - 25, 100, 50,
+                    50, null);
+        } else {
+            length = (int) (Math.ceil(Math.log10(score)));
+            int n = length;
+            while (n > 0) {
+                g.drawImage(numbers[(int) (score / Math.pow(10, n - 1))],
+                        Game.GAME_WIDTH / 2 - ((length / 2) * 50) + (length - n) * 50, 100, 50,
+                        50, null);
+                score = (int) (score % Math.pow(10, n - 1));
+                n -= 1;
+            }
+        }
+
         menu.draw(g);
         again.draw(g);
     }

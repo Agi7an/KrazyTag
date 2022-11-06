@@ -17,6 +17,7 @@ public class Player extends Entity {
     private boolean moving = false, attacking = false;
     private float playerSpeed = 2.0f;
     private int[][] levelData;
+    private float score = 0;
     // Hitbox Offset
     // private float xDrawOffset = 6 * Game.SCALE, yDrawOffset = 5 * Game.SCALE;
     private float xDrawOffset = 3 * Game.SCALE, yDrawOffset = 3 * Game.SCALE;
@@ -31,6 +32,14 @@ public class Player extends Entity {
 
     public int getAniSpeed() {
         return aniSpeed;
+    }
+
+    public int getScore() {
+        return (int) (score);
+    }
+
+    public void setScore(float score) {
+        this.score = score;
     }
 
     // Jumping and Gravity
@@ -130,6 +139,9 @@ public class Player extends Entity {
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
+            if (state != DEAD) {
+                score += 0.1;
+            }
             if (aniIndex >= GetSpriteAmount(state)) {
                 aniIndex = 0;
                 attacking = false;
@@ -310,6 +322,7 @@ public class Player extends Entity {
         attacking = false;
         moving = false;
         state = IDLE;
+        score = 0;
         hitBox.x = x;
         hitBox.y = y;
         if (!IsEntityOnFloor(hitBox, levelData)) {
