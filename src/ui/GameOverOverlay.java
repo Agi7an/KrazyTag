@@ -56,7 +56,8 @@ public class GameOverOverlay {
 
         score = playing.getPlayer().getScore();
         int length;
-        if (score == 0) {
+
+        if (score <= 9) {
             length = 1;
             g.drawImage(numbers[score],
                     Game.GAME_WIDTH / 2 - 25, 100, 50,
