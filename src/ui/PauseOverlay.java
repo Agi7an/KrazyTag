@@ -8,8 +8,6 @@ import static utils.Constants.UI.PauseButtons.*;
 import static utils.Constants.UI.URMButtons.*;
 import main.Game;
 import utils.LoadSave;
-import java.awt.event.MouseEvent;
-import ui.PauseButton;
 import gamestates.Playing;
 
 public class PauseOverlay {

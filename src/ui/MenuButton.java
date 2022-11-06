@@ -1,7 +1,6 @@
 package ui;
 
 import gamestates.Gamestate;
-import main.Game;
 import utils.LoadSave;
 import static utils.Constants.UI.Buttons.*;
 import java.awt.image.BufferedImage;

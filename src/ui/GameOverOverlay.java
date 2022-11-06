@@ -13,8 +13,6 @@ import java.awt.image.BufferedImage;
 import java.awt.event.MouseEvent;
 import static utils.Constants.UI.URMButtons.*;
 
-import java.lang.*;
-
 public class GameOverOverlay {
     private Playing playing;
     private BufferedImage image;

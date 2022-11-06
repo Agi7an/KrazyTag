@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import static utils.Constants.PlayerConstants.*;
 import static utils.HelpMethods.*;
 import static utils.LoadSave.*;
-import gamestates.Playing;
 
 public class Player extends Entity {
     private BufferedImage[][] animations;
@@ -53,11 +52,8 @@ public class Player extends Entity {
     private int flipX = 0;
     private int flipW = 1;
 
-    private Playing playing;
-
-    public Player(float x, float y, int width, int height, Playing playing) {
+    public Player(float x, float y, int width, int height) {
         super(x, y, width, height);
-        this.playing = playing;
         this.state = IDLE;
         loadAnimations();
         // Hitbox Width and Height
